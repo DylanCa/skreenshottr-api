@@ -1,0 +1,11 @@
+version: "3.1"
+services:
+  postgres:
+    image: postgres:13.11-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: this_is_a_password
+      POSTGRES_USER: pgu
+      POSTGRES_DB: skreenshottr
+    ports:
+      - "5432:5432"
