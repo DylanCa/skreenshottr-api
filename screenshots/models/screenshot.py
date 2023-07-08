@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from .users import User
+from .user import User
 from .mixins import BaseModelMixin, DateTimeMixin
 
 

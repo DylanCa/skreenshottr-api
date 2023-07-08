@@ -2,12 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 
 from screenshots.models import Screenshot
-
-
-class ScreenshotType(DjangoObjectType):
-    class Meta:
-        model = Screenshot
-        fields = ("id", "file_url", "owner")
+from screenshots.types import ScreenshotType
 
 
 class ScreenshotQuery(graphene.ObjectType):
@@ -18,7 +13,7 @@ class ScreenshotQuery(graphene.ObjectType):
         return Screenshot.objects.all()
 
 
-class ScreenshotMutation(graphene.Mutation):
+class UpdateScreenshot(graphene.Mutation):
     class Arguments:
         id = graphene.ID()
         file_url = graphene.String(required=True)
@@ -32,8 +27,8 @@ class ScreenshotMutation(graphene.Mutation):
 
         screenshot.save()
 
-        return ScreenshotMutation(screenshot=screenshot)
+        return UpdateScreenshot(screenshot=screenshot)
 
 
-class Mutation(graphene.ObjectType):
-    update_screenshot = ScreenshotMutation.Field()
+class ScreenshotMutation(graphene.ObjectType):
+    update_screenshot = UpdateScreenshot.Field()

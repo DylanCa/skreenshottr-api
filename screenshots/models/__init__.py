@@ -1,2 +1,2 @@
-from .users import User
-from .screenshots import Screenshot
+from .user import User
+from .screenshot import Screenshot

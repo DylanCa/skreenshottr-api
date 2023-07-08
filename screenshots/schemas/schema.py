@@ -1,7 +1,8 @@
 import graphene
 
-from .user import UserQuery, Mutation as UserMutation
-from .screenshot import ScreenshotQuery, Mutation as ScreenshotMutation
+from .authentication import AuthMutation
+from .user import UserQuery, UserMutation
+from .screenshot import ScreenshotQuery, ScreenshotMutation
 
 
 class Query(UserQuery,
@@ -12,6 +13,7 @@ class Query(UserQuery,
 
 class Mutation(UserMutation,
                ScreenshotMutation,
+               AuthMutation,
                graphene.ObjectType):
     pass
 
