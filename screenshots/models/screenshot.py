@@ -1,13 +1,13 @@
-import uuid
-
 from django.db import models
 
+from .tag import Tag
 from .user import User
-from .mixins import BaseModelMixin, DateTimeMixin
+from .mixins import BaseModelMixin
 
 
-class Screenshot(BaseModelMixin, DateTimeMixin):
+class Screenshot(BaseModelMixin):
     file_url = models.CharField(max_length=256)
+    tags = models.ManyToManyField(Tag, default=None)
     owner = models.ForeignKey(User, on_delete=models.RESTRICT, default=None)
 
     class Meta:
