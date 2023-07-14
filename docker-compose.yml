@@ -1,11 +1,40 @@
-version: "3.1"
+version: "3.7"
 services:
-  postgres:
+  db:
     image: postgres:13.11-bullseye
     restart: always
-    environment:
-      POSTGRES_PASSWORD: this_is_a_password
-      POSTGRES_USER: pgu
-      POSTGRES_DB: skreenshottr
+    env_file:
+      - .database.env
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  skreenshottr-api:
+    tty: true
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - backend
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+networks:
+  backend:
+    name: backend
+    external: true
+
+volumes:
+  postgres_data:
+    driver: local
