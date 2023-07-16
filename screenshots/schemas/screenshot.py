@@ -1,7 +1,11 @@
 import graphene
 import logging
+
+from django.core.files.storage import default_storage
+from graphene_file_upload.scalars import Upload
 from graphql_jwt.decorators import login_required
 
+from screenshots.lib import ImageHelper
 from screenshots.models import Screenshot, Tag
 from screenshots.scalars import URL
 from screenshots.types import ScreenshotType, TagType
@@ -24,33 +28,39 @@ class ScreenshotQuery(graphene.ObjectType):
         return Screenshot.objects.get(id=id, owner=info.context.user, deleted_at=None)
 
 
-class CreateScreenshot(graphene.Mutation, MutationBase):
+class UploadScreenshot(graphene.Mutation, MutationBase):
     class Arguments:
-        file_url = URL(required=True)
+        file = Upload(required=True)
 
     screenshot = graphene.Field(ScreenshotType)
 
     @classmethod
     @login_required
-    def mutate(cls, root, info, file_url):
+    def mutate(cls, root, info, file):
         try:
-            screenshot = Screenshot.objects.create(
-                owner=info.context.user,
-                file_url=file_url
-            )
-            screenshot.save()
+            if ImageHelper.verify_image_from_file(file):
+                filepath = ImageHelper.save_image_in_storage(file, info.context.user.id)
+                screenshot = Screenshot.objects.create(
+                    owner=info.context.user,
+                    file_url=filepath
+                )
+                screenshot.save()
 
-            message = f"Successfully created Screenshot #{screenshot.id}."
-            status_code = StatusCode.success
+                message = f"Successfully created Screenshot #{screenshot.id}."
+                status_code = StatusCode.success
+            else:
+                screenshot = None
+                message = f"Uploaded file is not an image."
+                status_code = StatusCode.error
         except Exception as e:
             logger.exception(e)
             screenshot = None
             message = f"Error while creating Screenshot."
             status_code = StatusCode.error
 
-        return CreateScreenshot(screenshot=screenshot,
-                                message=message,
-                                status_code=status_code)
+        return UploadScreenshot(screenshot=screenshot,
+                                 message=message,
+                                 status_code=status_code)
 
 
 class UpdateScreenshot(graphene.Mutation, MutationBase):
@@ -184,7 +194,7 @@ class RemoveTagFromScreenshot(graphene.Mutation, MutationBase):
 
 
 class ScreenshotMutation(graphene.ObjectType):
-    create_screenshot = CreateScreenshot.Field()
+    upload_screenshot = UploadScreenshot.Field()
     update_screenshot = UpdateScreenshot.Field()
     delete_screenshot = DeleteScreenshot.Field()
     add_tags_to_screenshot = AddTagToScreenshot.Field()
