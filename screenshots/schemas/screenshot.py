@@ -39,8 +39,7 @@ class UploadScreenshot(graphene.Mutation, MutationBase):
     def mutate(cls, root, info, file):
         try:
             if ImageHelper.verify_image_from_file(file):
-
-                filepath = ImageHelper.save_image_in_storage(file)
+                filepath = ImageHelper.save_image_in_storage(file, info.context.user.id)
                 screenshot = Screenshot.objects.create(
                     owner=info.context.user,
                     file_url=filepath
