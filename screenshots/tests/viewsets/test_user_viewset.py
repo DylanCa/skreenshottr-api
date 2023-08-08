@@ -17,24 +17,24 @@ def assert_not_auth(response):
 
 @pytest.mark.django_db
 class TestUserViewSet:
-    def setup(self):
+    def setup_method(self):
         self.client = APIClient()
         self.user = UserFactory(password="test")
 
     def test_get_me_not_auth(self):
-        self.setup()
+        self.setup_method()
 
         response = self.client.get('/me/')
         assert_not_auth(response)
 
     def test_patch_not_auth(self):
-        self.setup()
+        self.setup_method()
 
         response = self.client.patch('/me/')
         assert_not_auth(response)
 
     def test_get_me(self):
-        self.setup()
+        self.setup_method()
 
         self.client.login(username=self.user.username, password="test")
         response = self.client.get('/me/')
@@ -48,7 +48,7 @@ class TestUserViewSet:
         assert data['email'] == self.user.email
 
     def test_patch_me(self):
-        self.setup()
+        self.setup_method()
 
         self.client.login(username=self.user.username, password="test")
         response = self.client.patch('/me/', data={"first_name": "First Name",
@@ -66,7 +66,7 @@ class TestUserViewSet:
         assert self.user.email == "test@toto.fr"
 
     def test_patch_me_cant_take_taken_email(self):
-        self.setup()
+        self.setup_method()
 
         user2 = UserFactory(username="test2", email="test2@toto.fr")
 
@@ -80,7 +80,7 @@ class TestUserViewSet:
         assert data['email'][0].code == expected_error.code
 
     def test_patch_me_cant_take_taken_username(self):
-        self.setup()
+        self.setup_method()
 
         user2 = UserFactory(username="test2")
 
