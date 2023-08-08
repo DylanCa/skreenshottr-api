@@ -23,3 +23,12 @@ class TagViewSet(BaseModelViewSetMixin):
         else:
             return None
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        parent = self.get_parent()
+
+        if parent:
+            parent.tags.add(instance)
+
+        return instance
+
