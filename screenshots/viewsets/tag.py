@@ -17,6 +17,7 @@ class TagViewSet(BaseModelViewSetMixin):
             filters['screenshot'] = parent.id
 
         return Tag.objects.filter(**filters).order_by('id')
+
     def get_parent(self):
         if "screenshot_pk" in self.kwargs:
             return Screenshot.objects.get(pk=self.kwargs["screenshot_pk"])
@@ -32,3 +33,10 @@ class TagViewSet(BaseModelViewSetMixin):
 
         return instance
 
+    def perform_destroy(self, instance):
+        parent = self.get_parent()
+
+        if parent:
+            parent.tags.remove(instance)
+        else:
+            instance.delete()
