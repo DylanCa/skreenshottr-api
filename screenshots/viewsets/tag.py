@@ -8,3 +8,12 @@ from .mixins import BaseModelViewSetMixin
 class TagViewSet(BaseModelViewSetMixin):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+    def get_queryset(self):
+        filters = {"owner": self.request.user}
+        parent = self.get_parent()
+
+        if parent:
+            filters['screenshot'] = parent.id
+
+        return Tag.objects.filter(**filters).order_by('id')
