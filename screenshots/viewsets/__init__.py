@@ -1,3 +1,3 @@
-from .user import UserViewSet
-from .tag import TagViewSet
-from .screenshot import ScreenshotViewSet
+from .user_viewset import UserViewSet
+from .tag_viewset import TagViewSet
+from .screenshot_viewset import ScreenshotViewSet
