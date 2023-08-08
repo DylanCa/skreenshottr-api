@@ -1,11 +1,9 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.viewsets import mixins
 
 from screenshots.models import User
-from screenshots.serializers import UserSerializer, ChangePasswordSerializer
-from screenshots.viewsets.mixins import BaseModelViewSetMixin
+from screenshots.serializers import UserSerializer
 from screenshots.viewsets.permissions import IsOwner
 
 
