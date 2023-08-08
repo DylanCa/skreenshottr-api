@@ -1,7 +1,4 @@
-from rest_framework import serializers
-from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
-
-from screenshots.models import Tag, Screenshot
+from screenshots.models import Tag
 from screenshots.serializers.mixins import BaseModelSerializerMixin
 
 
