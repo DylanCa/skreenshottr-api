@@ -17,3 +17,9 @@ class TagViewSet(BaseModelViewSetMixin):
             filters['screenshot'] = parent.id
 
         return Tag.objects.filter(**filters).order_by('id')
+    def get_parent(self):
+        if "screenshot_pk" in self.kwargs:
+            return Screenshot.objects.get(pk=self.kwargs["screenshot_pk"])
+        else:
+            return None
+
