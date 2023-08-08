@@ -44,10 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-
     "debug_toolbar",
-    "graphene_django",
-
+    "rest_framework",
 
     "screenshots.apps.ScreenshotsConfig",
 ]
@@ -141,20 +139,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Graphene Settings
-
-GRAPHENE = {
-    "MIDDLEWARE": [
-        "graphql_jwt.middleware.JSONWebTokenMiddleware",
-    ],
-}
-
 AUTHENTICATION_BACKENDS = [
     "graphql_jwt.backends.JSONWebTokenBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
 AUTH_USER_MODEL = "screenshots.User"
+
+# REST Framework #
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 # AWS Config #
 
