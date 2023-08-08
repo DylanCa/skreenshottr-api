@@ -2,6 +2,12 @@ import uuid
 from datetime import datetime
 
 from django.db import models
+from django.db.models import Manager, QuerySet
+
+
+class BaseManagerMixin(Manager):
+    def get_queryset(self):
+        return QuerySet(self.model, using=self._db).exclude(deleted_at__isnull=False)
 
 
 class BaseModelMixin(models.Model):
@@ -13,6 +19,8 @@ class BaseModelMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, editable=False)
+
+    objects = BaseManagerMixin()
 
     class Meta:
         abstract = True
