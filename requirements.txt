@@ -30,6 +30,7 @@ psycopg-binary==3.1.9
 Pygments==2.16.1
 PyJWT==2.7.0
 pytest==7.4.0
+pytest-django==4.5.2
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 pytz==2023.3
