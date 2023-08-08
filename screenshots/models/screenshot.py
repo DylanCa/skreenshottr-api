@@ -15,4 +15,4 @@ class Screenshot(BaseModelMixin):
         db_table = "screenshots"
 
     def __str__(self):
-        return self.file_url
+        return self.name
