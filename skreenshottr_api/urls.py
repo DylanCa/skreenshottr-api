@@ -22,6 +22,7 @@ from drf_yasg import openapi
 
 from rest_framework_nested import routers
 from screenshots.viewsets import UserViewSet, TagViewSet, ScreenshotViewSet
+from screenshots.viewsets.change_password import ChangePasswordViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -34,7 +35,8 @@ schema_view = get_schema_view(
 )
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r'', UserViewSet, basename='me')
+router.register(r'', ChangePasswordViewSet, basename='me')
 router.register(r'tags', TagViewSet)
 router.register(r'screenshots', ScreenshotViewSet)
 
