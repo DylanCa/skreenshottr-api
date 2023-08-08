@@ -16,14 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.decorators.csrf import csrf_exempt
 
-from graphene_file_upload.django import FileUploadGraphQLView
+from rest_framework_nested import routers
+from screenshots.viewsets import UserViewSet, TagViewSet, ScreenshotViewSet
 
 from screenshots.schemas.schema import schema
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("debug/", include("debug_toolbar.urls")),
-    path("graphql/", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True, schema=schema))),
 ]
