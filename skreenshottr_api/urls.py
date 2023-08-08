@@ -16,13 +16,42 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
-from graphene_django.views import GraphQLView
+from rest_framework_nested import routers
+from screenshots.viewsets import UserViewSet, TagViewSet, ScreenshotViewSet
+from screenshots.viewsets.change_password import ChangePasswordViewSet
 
-from screenshots.schemas.schema import schema
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Skreenshottr API",
+        default_version='v1',
+        description="Schema for Skreenshottr API",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+router = routers.DefaultRouter()
+router.register(r'', UserViewSet, basename='me')
+router.register(r'', ChangePasswordViewSet, basename='me')
+router.register(r'tags', TagViewSet)
+router.register(r'screenshots', ScreenshotViewSet)
+
+screenshots_router = routers.NestedSimpleRouter(router, r'screenshots', lookup='screenshot')
+screenshots_router.register(r'tags', TagViewSet, basename='screenshot-tags')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("debug/", include("debug_toolbar.urls")),
-    path("graphql/", GraphQLView.as_view(graphiql=True, schema=schema)),
+
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api-auth/', include('rest_framework.urls')),
+
+    path('', include(router.urls)),
+    path('', include(screenshots_router.urls)),
 ]
