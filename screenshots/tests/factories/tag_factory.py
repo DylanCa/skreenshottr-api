@@ -10,3 +10,4 @@ class TagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Tag
+        django_get_or_create = ('name',)
