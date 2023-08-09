@@ -1,9 +1,6 @@
 from screenshots.models import Screenshot
 from screenshots.serializers import ScreenshotSerializer
 from .mixins import BaseModelViewSetMixin
-from rest_framework import viewsets, permissions
-
-from .permissions import IsOwner
 
 
 class ScreenshotViewSet(BaseModelViewSetMixin):

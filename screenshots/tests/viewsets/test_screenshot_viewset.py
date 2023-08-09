@@ -1,18 +1,9 @@
-import os.path
 import tempfile
-from io import BytesIO
 
-import factory.django
 import pytest
 from PIL import Image
-from django.core.files.base import ContentFile
-from factory import faker
 from rest_framework import status
-from rest_framework.exceptions import ErrorDetail
-from django.core.files.uploadedfile import SimpleUploadedFile
-from rest_framework.test import APITestCase
 from django.test.client import MULTIPART_CONTENT, encode_multipart, BOUNDARY
-from django.core.files.base import ContentFile
 
 
 from screenshots.tests.factories import UserFactory, ScreenshotFactory, TagFactory
@@ -154,7 +145,7 @@ class TestScreenshotViewset:
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert self.screenshot1_u1.deleted_at
 
-    def test_cannot_delete_not_owned_screeshot(self):
+    def test_cannot_delete_not_owned_screenshot(self):
         path = f'/screenshots/{self.screenshot1_u1.id}/'
 
         response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user2.username)
