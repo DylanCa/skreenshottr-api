@@ -13,13 +13,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     # TODO: Add an email verification
     def validate_email(self, value):
-        user = self.context['request'].user
-        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
+        if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("This email is already in use.")
         return value
 
     def validate_username(self, value):
-        user = self.context['request'].user
-        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+        if User.objects.filter(username=value).exists():
             raise serializers.ValidationError("This username is already in use.")
         return value
