@@ -1,11 +1,18 @@
 from screenshots.models import Tag, Screenshot
 from screenshots.serializers import TagSerializer
-from .mixins import BaseModelViewSetMixin
+from .mixins import BaseModelViewSetMixin, CheckParentPermissionMixin
 
 
-class TagViewSet(BaseModelViewSetMixin):
+class TagViewSet(CheckParentPermissionMixin,
+                 BaseModelViewSetMixin):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+    parent_queryset = Screenshot.objects.all()
+    parent_lookup_field = 'pk'
+    parent_lookup_url_kwarg = 'screenshot_pk'
+
+    lookup_field = 'pk'
 
     def get_queryset(self):
         filters = {"owner": self.request.user}
