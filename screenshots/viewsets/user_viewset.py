@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -30,6 +30,8 @@ class UserViewSet(viewsets.GenericViewSet):
         data = self.get_serializer(instance=instance).data
         return Response(data=data)
 
-
-
-
+    @action(methods=['DELETE'], detail=False, url_path='me/deactivate')
+    def deactivate(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
