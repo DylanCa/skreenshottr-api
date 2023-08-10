@@ -20,7 +20,7 @@ class TestUserViewSet:
 
         path = '/me/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
 
@@ -40,7 +40,7 @@ class TestUserViewSet:
                 "email": "test@toto.fr",
                 "username": "test_username"}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
         self.user.refresh_from_db()
@@ -58,7 +58,7 @@ class TestUserViewSet:
         path = '/me/'
         data = {"email": user2.email}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
 
@@ -75,7 +75,7 @@ class TestUserViewSet:
         path = '/me/'
         data = {"username": user2.username}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
 

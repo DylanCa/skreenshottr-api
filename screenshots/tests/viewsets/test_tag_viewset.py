@@ -27,7 +27,7 @@ class TestTagViewset:
         self.setup_method()
         path = '/tags/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
 
@@ -40,7 +40,7 @@ class TestTagViewset:
         self.setup_method()
         path = f'/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
         assert response.status_code == status.HTTP_200_OK
@@ -51,7 +51,7 @@ class TestTagViewset:
         self.setup_method()
         path = f'/tags/{self.tag1_u2.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -63,7 +63,7 @@ class TestTagViewset:
 
         path = f'/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -73,7 +73,7 @@ class TestTagViewset:
         name = 'Test Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user, data=data)
 
         data = response.data
         tag = Tag.objects.get(name=name, owner=self.user)
@@ -88,7 +88,7 @@ class TestTagViewset:
         name = 'Test Patch Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
         self.tag2_u1.refresh_from_db()
@@ -103,7 +103,7 @@ class TestTagViewset:
         name = 'Test Patch Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         self.tag2_u1.refresh_from_db()
 
@@ -115,7 +115,7 @@ class TestTagViewset:
         name = 'Test Patch Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user, data=data)
 
         data = response.data
         self.tag2_u1.refresh_from_db()
@@ -127,7 +127,7 @@ class TestTagViewset:
     def test_delete_tag(self):
         path = f'/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user)
 
         self.tag1_u1.refresh_from_db()
 
@@ -137,7 +137,7 @@ class TestTagViewset:
     def test_cannot_delete_not_owned_tag(self):
         path = f'/tags/{self.tag1_u2.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user)
 
         self.tag1_u2.refresh_from_db()
 
@@ -148,7 +148,7 @@ class TestTagViewset:
         self.setup_method()
         path = f'/screenshots/{self.screenshot.id}/tags/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
 
@@ -161,7 +161,7 @@ class TestTagViewset:
         self.setup_method()
         path = f'/screenshots/{self.screenshot.id}/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
         assert response.status_code == status.HTTP_200_OK
@@ -172,7 +172,7 @@ class TestTagViewset:
         self.setup_method()
         path = f'/screenshots/{self.screenshot.id}/tags/{self.tag2_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -182,7 +182,7 @@ class TestTagViewset:
         name = 'Test Post Screenshot Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user, data=data)
 
         data = response.data
         tag = Tag.objects.get(name=name, owner=self.user)
@@ -199,7 +199,7 @@ class TestTagViewset:
         name = 'Test Post Screenshot Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user2.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'POST', path, self.user2, data=data)
 
         tag_count = Tag.objects.filter(name=name, owner=self.user2).count()
 
@@ -212,7 +212,7 @@ class TestTagViewset:
         name = 'Test Patch Screenshot Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
         self.tag1_u1.refresh_from_db()
@@ -230,7 +230,7 @@ class TestTagViewset:
         original_name = self.tag1_u1.name
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user2.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user2, data=data)
 
         self.tag1_u1.refresh_from_db()
 
@@ -243,7 +243,7 @@ class TestTagViewset:
         name = 'Test Put Screenshot Tag'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user, data=data)
 
         data = response.data
         self.tag1_u1.refresh_from_db()
@@ -261,7 +261,7 @@ class TestTagViewset:
         original_name = self.tag1_u1.name
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user2.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user2, data=data)
 
         self.tag1_u1.refresh_from_db()
 
@@ -271,7 +271,7 @@ class TestTagViewset:
     def test_remove_screenshot_tag(self):
         path = f'/screenshots/{self.screenshot.id}/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user)
 
         self.tag1_u1.refresh_from_db()
         self.screenshot.refresh_from_db()
@@ -283,7 +283,7 @@ class TestTagViewset:
     def test_cannot_remove_not_owned_tag_from_screenshot(self):
         path = f'/screenshots/{self.screenshot.id}/tags/{self.tag1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user2.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user2)
 
         self.tag1_u1.refresh_from_db()
         self.screenshot.refresh_from_db()
