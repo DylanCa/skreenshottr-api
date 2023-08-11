@@ -16,12 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt import views as jwt_views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from rest_framework_nested import routers
-from screenshots.viewsets import UserViewSet, TagViewSet, ScreenshotViewSet, ChangePasswordViewSet
+from screenshots.viewsets import UserViewSet,\
+    TagViewSet,\
+    ScreenshotViewSet,\
+    ChangePasswordViewSet,\
+    RegisterViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -45,6 +50,8 @@ screenshots_router.register(r'tags', TagViewSet, basename='screenshot-tags')
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("debug/", include("debug_toolbar.urls")),
+    path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -53,4 +60,6 @@ urlpatterns = [
 
     path('', include(router.urls)),
     path('', include(screenshots_router.urls)),
+
+    path('register/', RegisterViewSet.as_view(), name='auth_register'),
 ]

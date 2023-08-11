@@ -30,7 +30,7 @@ class TestScreenshotViewset:
         self.setup_method()
         path = '/screenshots/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
 
@@ -43,7 +43,7 @@ class TestScreenshotViewset:
         self.setup_method()
         path = f'/screenshots/{self.screenshot1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user)
 
         data = response.data
 
@@ -55,7 +55,7 @@ class TestScreenshotViewset:
         self.setup_method()
         path = f'/screenshots/{self.screenshot1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user2.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'GET', path, self.user2)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -76,7 +76,7 @@ class TestScreenshotViewset:
         response = ViewsetTestsHelper.get_response(self.client,
                                                    'POST',
                                                    path,
-                                                   self.user.username,
+                                                   self.user,
                                                    data=encode_multipart(
                                                        data=data,
                                                        boundary=BOUNDARY
@@ -100,7 +100,7 @@ class TestScreenshotViewset:
         name = 'Test Patch Screenshot'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user, data=data)
 
         data = response.data
         self.screenshot1_u1.refresh_from_db()
@@ -115,7 +115,7 @@ class TestScreenshotViewset:
         name = 'Test Patch Screenshot'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user2.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PATCH', path, self.user2, data=data)
 
         self.screenshot1_u1.refresh_from_db()
 
@@ -128,7 +128,7 @@ class TestScreenshotViewset:
         name = 'Test Put Screenshot'
         data = {'name': name}
 
-        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user.username, data=data)
+        response = ViewsetTestsHelper.get_response(self.client, 'PUT', path, self.user, data=data)
 
         self.screenshot1_u1.refresh_from_db()
 
@@ -138,7 +138,7 @@ class TestScreenshotViewset:
     def test_delete_screenshot(self):
         path = f'/screenshots/{self.screenshot1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user)
 
         self.screenshot1_u1.refresh_from_db()
 
@@ -148,7 +148,7 @@ class TestScreenshotViewset:
     def test_cannot_delete_not_owned_screenshot(self):
         path = f'/screenshots/{self.screenshot1_u1.id}/'
 
-        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user2.username)
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user2)
 
         self.screenshot1_u1.refresh_from_db()
 

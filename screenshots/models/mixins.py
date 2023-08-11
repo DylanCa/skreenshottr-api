@@ -4,6 +4,8 @@ from datetime import datetime
 from django.db import models
 from django.db.models import Manager, QuerySet
 
+from screenshots.models import User
+
 
 class BaseManagerMixin(Manager):
     def get_queryset(self):
@@ -16,6 +18,7 @@ class BaseModelMixin(models.Model):
         default=uuid.uuid4,
         editable=False)
 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, editable=False)
