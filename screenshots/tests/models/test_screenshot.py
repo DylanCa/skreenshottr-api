@@ -9,7 +9,7 @@ class TestScreenshot:
         screenshot = ScreenshotFactory()
 
         assert screenshot.name == "Screenshot"
-        assert screenshot.file_url == "http://test.com"
+        assert screenshot.image_url == "http://test.com"
         assert screenshot.__str__() == screenshot.name
         assert screenshot.owner
 

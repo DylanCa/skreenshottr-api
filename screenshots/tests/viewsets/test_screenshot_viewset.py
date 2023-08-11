@@ -91,7 +91,7 @@ class TestScreenshotViewset:
         assert response.status_code == status.HTTP_201_CREATED
         assert data['id'] == str(screenshot.id)
         assert data['name'] == screenshot.name
-        assert data['file_url'] == screenshot.file_url
+        assert data['image_url'] == screenshot.image_url
         assert screenshot_count_after == screenshot_count_before + 1
 
     def test_patch_screenshot(self):
