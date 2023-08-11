@@ -11,12 +11,8 @@ class FileManager:
         self.client = self.__boto3_client()
         self.base_location = f"https://{self.bucket_name}.s3.amazonaws.com/"
 
-    def upload_to_s3_and_retrieve_url(self, file, directory):
-        filename = file.name
-        filepath = filename
-
-        if directory:
-            filepath = f"{directory}/{filepath}"
+    def upload_to_s3_and_retrieve_url(self, file, filename, directory):
+        filepath = f"{directory}/{filename}"
 
         self.upload_to_s3(file, filepath)
         return self.get_s3_object_for_file(filepath)
