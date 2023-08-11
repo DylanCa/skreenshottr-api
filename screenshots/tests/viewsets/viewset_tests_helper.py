@@ -32,7 +32,7 @@ class ViewsetTestsHelper:
         assert response.data['detail'].code == expected_error.code
 
     @staticmethod
-    def __get_response_for_logged_request(client, method, path, user, data, content_type):
+    def get_response_for_logged_request(client, method, path, user, data=None, content_type=None):
         refresh = RefreshToken.for_user(user)
         client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
         return ViewsetTestsHelper.__get_response_for_method(client, method, path, data, content_type)
@@ -40,4 +40,4 @@ class ViewsetTestsHelper:
     @staticmethod
     def get_response(client, method, path, user, data=None, content_type=None):
         ViewsetTestsHelper.__assert_not_auth(client, method, path, data, content_type)
-        return ViewsetTestsHelper.__get_response_for_logged_request(client, method, path, user, data, content_type)
+        return ViewsetTestsHelper.get_response_for_logged_request(client, method, path, user, data, content_type)
