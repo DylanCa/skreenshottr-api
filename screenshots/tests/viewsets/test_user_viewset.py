@@ -83,3 +83,25 @@ class TestUserViewSet:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
         assert data['username'][0].title() == expected_error.title()
         assert data['username'][0].code == expected_error.code
+
+    def test_deactivate(self):
+        self.setup_method()
+
+        path = '/me/deactivate/'
+
+        response = ViewsetTestsHelper.get_response(self.client, 'DELETE', path, self.user)
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+
+        self.user.refresh_from_db()
+
+        assert not self.user.is_active
+
+        path = '/me/'
+
+        response = ViewsetTestsHelper.get_response_for_logged_request(self.client, 'GET', path, self.user)
+
+        expected_error = ErrorDetail(string="User is inactive", code='authentication_failed')
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert response.data['detail'].title() == expected_error.title()
+        assert response.data['detail'].code == expected_error.code
