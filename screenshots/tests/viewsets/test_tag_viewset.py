@@ -68,7 +68,7 @@ class TestTagViewset:
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_post_tag(self):
-        path = f"/tags/"
+        path = "/tags/"
 
         name = "Test Tag"
         data = {"name": name}

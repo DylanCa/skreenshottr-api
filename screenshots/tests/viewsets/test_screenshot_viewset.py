@@ -61,7 +61,7 @@ class TestScreenshotViewset:
 
     def test_post_screenshot(self):
         self.setup_method()
-        path = f"/screenshots/"
+        path = "/screenshots/"
 
         name = "Test Screenshot"
         image = Image.new("RGB", (100, 100))

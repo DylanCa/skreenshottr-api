@@ -1,7 +1,6 @@
 import logging
 from io import BytesIO
 
-from PIL import Image
 
 from screenshots.lib.file_manager import FileManager
 

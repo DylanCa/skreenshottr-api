@@ -1,3 +1,0 @@
-from .tag_serializer import TagSerializer
-from .application_serializer import ApplicationSerializer
-from .screenshot_serializer import ScreenshotSerializer
