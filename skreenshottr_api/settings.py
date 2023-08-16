@@ -190,6 +190,28 @@ SWAGGER_SETTINGS = {
     }
 }
 
+SITE_ID = os.environ.get('SITE_ID')
+
+# allauth - Social Config #
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": os.environ.get('GOOGLE_CLIENT_ID'),
+            "secret": os.environ.get('GOOGLE_CLIENT_SECRET'),
+            "key": "",
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "VERIFIED_EMAIL": True,
+    },
+}
+
 # Email Config #
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
