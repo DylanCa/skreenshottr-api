@@ -28,10 +28,7 @@ from drf_yasg import openapi
 from rest_framework_nested import routers
 
 from screenshots.authentication.social_adapters import GoogleLogin, GoogleConnect
-from screenshots.viewsets import UserViewSet, \
-    TagViewSet, \
-    ScreenshotViewSet, \
-    ChangePasswordViewSet
+from screenshots.viewsets import TagViewSet, ScreenshotViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tags', TagViewSet)
