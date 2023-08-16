@@ -34,6 +34,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+FRONT_END_BASE_URL = os.environ.get("FRONT_END_BASE_URL")
 
 # Application definition
 
@@ -174,6 +175,15 @@ SWAGGER_SETTINGS = {
     }
 }
 
+# Email Config #
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_USE_TLS = False
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 # AWS Config #
 
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
