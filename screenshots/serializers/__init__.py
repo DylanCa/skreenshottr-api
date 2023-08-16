@@ -1,6 +1,0 @@
-from .user_serializer import UserSerializer
-from .tag_serializer import TagSerializer
-from .application_serializer import ApplicationSerializer
-from .screenshot_serializer import ScreenshotSerializer
-from .change_password import ChangePasswordSerializer
-from .register_serializer import RegisterSerializer

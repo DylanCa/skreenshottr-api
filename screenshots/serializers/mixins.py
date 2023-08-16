@@ -2,11 +2,11 @@ from rest_framework import serializers
 
 
 class BaseModelSerializerMixin(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.id')
+    owner = serializers.ReadOnlyField(source="owner.id")
 
     def validate_owner(self, attrs):
-        user = self.context['request'].user
-        attrs['owner'] = user
+        user = self.context["request"].user
+        attrs["owner"] = user
 
         return attrs
 

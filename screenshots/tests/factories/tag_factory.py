@@ -1,7 +1,7 @@
 import factory
 
-from screenshots.models import Tag
-from . import UserFactory
+from screenshots.models.tag import Tag
+from screenshots.tests.factories.user_factory import UserFactory
 
 
 class TagFactory(factory.django.DjangoModelFactory):
@@ -10,4 +10,4 @@ class TagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Tag
-        django_get_or_create = ('name',)
+        django_get_or_create = ("name",)

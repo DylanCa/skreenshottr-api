@@ -1,7 +1,6 @@
 import logging
 from io import BytesIO
 
-from PIL import Image
 
 from screenshots.lib.file_manager import FileManager
 
@@ -9,11 +8,14 @@ logger = logging.getLogger(__name__)
 
 
 class ImageHelper:
-
     @staticmethod
     def upload_image_to_storage(image, filename, directory):
-        thumb_url = ImageHelper.__generate_and_upload_thumbnail_to_storage(image, filename, directory)
-        file_url = ImageHelper.__generate_and_upload_image_to_storage(image, filename, directory)
+        thumb_url = ImageHelper.__generate_and_upload_thumbnail_to_storage(
+            image, filename, directory
+        )
+        file_url = ImageHelper.__generate_and_upload_image_to_storage(
+            image, filename, directory
+        )
 
         return file_url, thumb_url
 
@@ -24,7 +26,7 @@ class ImageHelper:
         file = BytesIO()
         thumb.save(file, thumb.format)
 
-        directory = f'{directory}/thumbnails'
+        directory = f"{directory}/thumbnails"
         filename = f"thumb_{filename}"
         return ImageHelper.__upload(file, filename, directory)
 
