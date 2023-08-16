@@ -48,7 +48,15 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     "rest_framework",
+    "rest_framework.authtoken",
     'drf_yasg',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    'allauth.socialaccount.providers.google',
+
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
 
     "screenshots.apps.ScreenshotsConfig",
 ]
