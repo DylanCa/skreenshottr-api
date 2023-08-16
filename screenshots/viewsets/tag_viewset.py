@@ -3,25 +3,24 @@ from screenshots.serializers import TagSerializer
 from .mixins import BaseModelViewSetMixin, CheckParentPermissionMixin
 
 
-class TagViewSet(CheckParentPermissionMixin,
-                 BaseModelViewSetMixin):
+class TagViewSet(CheckParentPermissionMixin, BaseModelViewSetMixin):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
     parent_queryset = Screenshot.objects.all()
-    parent_lookup_field = 'pk'
-    parent_lookup_url_kwarg = 'screenshot_pk'
+    parent_lookup_field = "pk"
+    parent_lookup_url_kwarg = "screenshot_pk"
 
-    lookup_field = 'pk'
+    lookup_field = "pk"
 
     def get_queryset(self):
         filters = {"owner": self.request.user}
         parent = self.get_parent()
 
         if parent:
-            filters['screenshot'] = parent.id
+            filters["screenshot"] = parent.id
 
-        return Tag.objects.filter(**filters).order_by('id')
+        return Tag.objects.filter(**filters).order_by("id")
 
     def get_parent(self):
         if "screenshot_pk" in self.kwargs:

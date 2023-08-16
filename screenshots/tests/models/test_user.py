@@ -9,10 +9,10 @@ class TestUser:
     def test_fields(self):
         user = UserFactory()
 
-        assert user.username == 'bobibop'
-        assert user.first_name == 'Bob'
-        assert user.last_name == 'Bibop'
-        assert user.email == 'bob.bibop@gmail.com'
+        assert user.username == "bobibop"
+        assert user.first_name == "Bob"
+        assert user.last_name == "Bibop"
+        assert user.email == "bob.bibop@gmail.com"
         assert not user.is_staff
         assert not user.is_superuser
         assert check_password("password", user.password)

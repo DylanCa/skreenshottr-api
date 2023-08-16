@@ -4,9 +4,9 @@ from screenshots.serializers.mixins import BaseModelSerializerMixin
 
 class TagSerializer(BaseModelSerializerMixin):
     parent_lookup_kwargs = {
-        'screenshot_pk': 'screenshot__pk',
+        "screenshot_pk": "screenshot__pk",
     }
 
     class Meta:
         model = Tag
-        fields = ['id', 'name']
+        fields = ["id", "name"]
