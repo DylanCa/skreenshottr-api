@@ -1,6 +1,6 @@
-from screenshots.models import Screenshot
-from screenshots.serializers import ScreenshotSerializer
 from .mixins import BaseModelViewSetMixin
+from ..models.screenshot import Screenshot
+from ..serializers.screenshot_serializer import ScreenshotSerializer
 
 
 class ScreenshotViewSet(BaseModelViewSetMixin):

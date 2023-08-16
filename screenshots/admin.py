@@ -1,5 +1,7 @@
 from django.contrib import admin
 
-from .models import User, Screenshot, Tag
+from screenshots.models import User
+from screenshots.models.screenshot import Screenshot
+from screenshots.models.tag import Tag
 
 admin.site.register([User, Screenshot, Tag])

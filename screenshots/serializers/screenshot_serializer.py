@@ -3,10 +3,12 @@ import os
 from PIL import Image
 from rest_framework import serializers
 
-from screenshots.lib import ImageHelper
-from screenshots.models import Screenshot, Application
-from screenshots.serializers import TagSerializer, ApplicationSerializer
+from screenshots.lib.image_helper import ImageHelper
+from screenshots.models.application import Application
+from screenshots.models.screenshot import Screenshot
+from screenshots.serializers.application_serializer import ApplicationSerializer
 from screenshots.serializers.mixins import BaseModelSerializerMixin
+from screenshots.serializers.tag_serializer import TagSerializer
 
 
 class ScreenshotSerializer(BaseModelSerializerMixin):

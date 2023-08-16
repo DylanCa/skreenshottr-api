@@ -3,12 +3,14 @@ from datetime import datetime
 import pytest
 from rest_framework import status
 
-from screenshots.tests.factories import UserFactory, TagFactory, ScreenshotFactory
 
 from rest_framework.test import APIClient
 
-from . import ViewsetTestsHelper
-from ...models import Tag
+from screenshots.models.tag import Tag
+from screenshots.tests.factories.screenshot_factory import ScreenshotFactory
+from screenshots.tests.factories.tag_factory import TagFactory
+from screenshots.tests.factories.user_factory import UserFactory
+from screenshots.tests.viewsets.viewset_tests_helper import ViewsetTestsHelper
 
 
 @pytest.mark.django_db

@@ -1,5 +1,4 @@
-
-from screenshots.models import Application
+from screenshots.models.application import Application
 from screenshots.serializers.mixins import BaseModelSerializerMixin
 
 

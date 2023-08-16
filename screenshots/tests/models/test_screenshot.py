@@ -1,6 +1,8 @@
 import pytest
 
-from screenshots.tests.factories import TagFactory, UserFactory, ScreenshotFactory
+from screenshots.tests.factories.screenshot_factory import ScreenshotFactory
+from screenshots.tests.factories.tag_factory import TagFactory
+from screenshots.tests.factories.user_factory import UserFactory
 
 
 @pytest.mark.django_db

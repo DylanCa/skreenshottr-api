@@ -1,7 +1,7 @@
 import pytest
 from django.contrib.auth.hashers import check_password
 
-from screenshots.tests.factories import UserFactory
+from screenshots.tests.factories.user_factory import UserFactory
 
 
 @pytest.mark.django_db

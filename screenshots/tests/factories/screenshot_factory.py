@@ -1,7 +1,7 @@
 import factory
 
-from screenshots.models import Screenshot
-from . import UserFactory
+from screenshots.models.screenshot import Screenshot
+from screenshots.tests.factories.user_factory import UserFactory
 
 
 class ScreenshotFactory(factory.django.DjangoModelFactory):

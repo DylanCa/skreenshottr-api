@@ -1,4 +1,4 @@
-from screenshots.models import Tag
+from screenshots.models.tag import Tag
 from screenshots.serializers.mixins import BaseModelSerializerMixin
 
 

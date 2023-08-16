@@ -1,6 +1,7 @@
-from screenshots.models import Tag, Screenshot
-from screenshots.serializers import TagSerializer
 from .mixins import BaseModelViewSetMixin, CheckParentPermissionMixin
+from ..models.screenshot import Screenshot
+from ..models.tag import Tag
+from ..serializers.tag_serializer import TagSerializer
 
 
 class TagViewSet(CheckParentPermissionMixin, BaseModelViewSetMixin):

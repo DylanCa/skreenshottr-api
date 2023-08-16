@@ -5,13 +5,13 @@ from PIL import Image
 from rest_framework import status
 from django.test.client import MULTIPART_CONTENT, encode_multipart, BOUNDARY
 
-
-from screenshots.tests.factories import UserFactory, ScreenshotFactory, TagFactory
-
 from rest_framework.test import APIClient
 
-from . import ViewsetTestsHelper
-from ...models import Screenshot
+from screenshots.models.screenshot import Screenshot
+from screenshots.tests.factories.screenshot_factory import ScreenshotFactory
+from screenshots.tests.factories.tag_factory import TagFactory
+from screenshots.tests.factories.user_factory import UserFactory
+from screenshots.tests.viewsets.viewset_tests_helper import ViewsetTestsHelper
 
 
 @pytest.mark.django_db
