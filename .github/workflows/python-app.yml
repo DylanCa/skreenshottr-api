@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -28,13 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with pytest --spec
       run: |
         pytest --spec
       env:
@@ -44,3 +38,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
         AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chartboost/ruff-action@v1
