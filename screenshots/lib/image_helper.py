@@ -26,7 +26,6 @@ class ImageHelper:
         file = BytesIO()
         thumb.save(file, thumb.format)
 
-        directory = f"{directory}/thumbnails"
         filename = f"thumb_{filename}"
         return ImageHelper.__upload(file, filename, directory)
 
