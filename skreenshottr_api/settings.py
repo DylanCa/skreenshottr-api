@@ -35,6 +35,7 @@ INTERNAL_IPS = [
 ]
 
 FRONT_END_BASE_URL = os.environ.get("FRONT_END_BASE_URL")
+CLOUDFRONT_DOMAIN = os.environ.get("CLOUDFRONT_DOMAIN")
 
 # Application definition
 
