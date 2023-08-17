@@ -1,4 +1,1 @@
-from .user import User
-from .screenshot import Screenshot
-from .tag import Tag
-
+from .user import User as User

@@ -11,5 +11,5 @@ class IsOwner(permissions.BasePermission):
         return obj.owner == request.user
 
     def has_parent_object_permission(self, request, view, obj):
-        """ This will be checked on any request """
+        """This will be checked on any request"""
         return request.user == obj.user
