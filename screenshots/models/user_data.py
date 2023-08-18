@@ -34,17 +34,18 @@ def update_screenshot_total_data(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Screenshot)
 def update_screenshot_total_data(sender, instance, **kwargs):
-    data = instance.owner.data
+    if hasattr(instance.owner, 'data'):
+        data = instance.owner.data
 
-    try:
-        data.screenshot_total_count = F('screenshot_total_count') - 1
-        data.screenshot_total_size = F('screenshot_total_size') - instance.size
-        data.save()
-    except IntegrityError:
-        # Ensuring to recalculate if an error happens
-        screenshots = Screenshot.objects.filter(owner=instance.owner)
-        data.screenshot_total_count = screenshots.count()
-        data.screenshot_total_size = screenshots.aggregate(Sum('size'))['size__sum']
-        data.save()
-
-
+        try:
+            data.screenshot_total_count = F('screenshot_total_count') - 1
+            data.screenshot_total_size = F('screenshot_total_size') - instance.size
+            data.save()
+        except IntegrityError as e:
+            # Ensuring to recalculate if an error happens
+            screenshots = Screenshot.objects.filter(owner=instance.owner)
+            data.screenshot_total_count = screenshots.count()
+            data.screenshot_total_size = screenshots.aggregate(Sum('size'))['size__sum']
+            data.save()
+    else:
+        UserData.objects.get_or_create(owner=instance.owner)
