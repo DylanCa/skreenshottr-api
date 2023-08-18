@@ -26,10 +26,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Screenshot)
 def update_screenshot_total_data(sender, instance, created, **kwargs):
     if created:
-        data = instance.owner.data
-        data.screenshot_total_count = F('screenshot_total_count') + 1
-        data.screenshot_total_size = F('screenshot_total_size') + instance.size
-        data.save()
+        if hasattr(instance.owner, 'data'):
+            data = instance.owner.data
+            data.screenshot_total_count = F('screenshot_total_count') + 1
+            data.screenshot_total_size = F('screenshot_total_size') + instance.size
+            data.save()
+        else:
+            UserData.objects.get_or_create(owner=instance.owner)
 
 
 @receiver(post_delete, sender=Screenshot)
