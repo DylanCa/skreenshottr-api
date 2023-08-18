@@ -1,3 +1,6 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 from .mixins import BaseModelViewSetMixin, CheckParentPermissionMixin
 from ..models.screenshot import Screenshot
 from ..models.tag import Tag
@@ -7,11 +10,13 @@ from ..serializers.tag_serializer import TagSerializer
 class TagViewSet(CheckParentPermissionMixin, BaseModelViewSetMixin):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['name']
+    search_fields = filterset_fields
 
     parent_queryset = Screenshot.objects.all()
     parent_lookup_field = "pk"
     parent_lookup_url_kwarg = "screenshot_pk"
-
     lookup_field = "pk"
 
     def get_queryset(self):
