@@ -1,7 +1,9 @@
+import hashlib
 import os
 
 from PIL import Image
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.exceptions import ValidationError
 
 from screenshots.lib.image_helper import ImageHelper
 from screenshots.models.application import Application
@@ -55,6 +57,16 @@ class ScreenshotSerializer(BaseModelSerializerMixin):
             filename = file.name
 
             with Image.open(file) as image:
+                image_hash = hashlib.md5(image.tobytes()).hexdigest()
+
+                instance = Screenshot.objects.filter(image_hash=image_hash, owner=user)
+
+                if instance.count():
+                    instance = instance.get()
+                    raise ValidationError({'file': 'File already exists.',
+                                           'duplicate_screenshot_id': instance.id}, code=status.HTTP_409_CONFLICT)
+
+                attrs["image_hash"] = image_hash
                 attrs["filename"] = filename
                 attrs["format"] = image.format
                 attrs["width"] = image.width
@@ -75,9 +87,14 @@ class ScreenshotSerializer(BaseModelSerializerMixin):
         return attrs
 
     def validate_application(self, value):
-        name = value.pop("name")
-        if name == "":
-            return None
+        application = None
 
-        application, _ = Application.objects.get_or_create(name=name)
+        if 'name' in value:
+            name = value.pop("name")
+            application, _ = Application.objects.get_or_create(name=name, owner=self.get_owner())
+
+        elif 'id' in value:
+            uuid = value.pop("id")
+            application = Application.objects.filter(id=uuid).get()
+
         return application

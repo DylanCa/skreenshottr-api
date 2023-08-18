@@ -29,12 +29,14 @@ from drf_yasg import openapi
 from rest_framework_nested import routers
 
 from screenshots.authentication.social_adapters import GoogleLogin, GoogleConnect
+from screenshots.viewsets.application_viewset import ApplicationViewSet
 from screenshots.viewsets.screenshot_viewset import ScreenshotViewSet
 from screenshots.viewsets.tag_viewset import TagViewSet
 
 router = routers.DefaultRouter()
 router.register(r"tags", TagViewSet)
 router.register(r"screenshots", ScreenshotViewSet)
+router.register(r"applications", ApplicationViewSet)
 
 screenshots_router = routers.NestedSimpleRouter(
     router, r"screenshots", lookup="screenshot"
@@ -45,14 +47,17 @@ shown_urls = [
     # Administration #
     path("admin/", admin.site.urls),
     path("debug/", include("debug_toolbar.urls")),
+
     # Routers #
     path("", include(router.urls)),
     path("", include(screenshots_router.urls)),
+
     # Authentication & Social Endpoints #
     # Registration #
     path("register/", include("dj_rest_auth.registration.urls")),
     path("signup/", signup, name="socialaccount_signup"),
     path("login/google/", GoogleLogin.as_view(), name="google_login"),
+
     # User Endpoints #
     path("", include("dj_rest_auth.urls")),
     path(
