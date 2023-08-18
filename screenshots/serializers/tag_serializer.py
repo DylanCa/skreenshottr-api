@@ -1,8 +1,9 @@
 from screenshots.models.tag import Tag
-from screenshots.serializers.mixins import BaseModelSerializerMixin
+from screenshots.serializers.mixins import BaseModelSerializerMixin, UniqueObjectSerializerMixin
 
 
-class TagSerializer(BaseModelSerializerMixin):
+class TagSerializer(BaseModelSerializerMixin,
+                    UniqueObjectSerializerMixin):
     parent_lookup_kwargs = {
         "screenshot_pk": "screenshot__pk",
     }

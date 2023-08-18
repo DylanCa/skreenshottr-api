@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "rest_framework",
     "rest_framework.authtoken",
+    'django_filters',
     "drf_yasg",
     "allauth",
     "allauth.account",
@@ -161,6 +162,7 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "access",
     "JWT_AUTH_REFRESH_COOKIE": "refresh",
     "USE_JWT": True,
+    'USER_DETAILS_SERIALIZER': 'screenshots.serializers.user_serializer.UserSerializer',
 }
 
 REST_FRAMEWORK = {
@@ -170,6 +172,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "dj_rest_auth.jwt_auth.JWTAuthentication",
     ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 SIMPLE_JWT = {

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_delete
 
 from . import User
 from .tag import Tag
@@ -20,6 +21,8 @@ class Screenshot(BaseModelMixin):
     width = models.IntegerField()
     height = models.IntegerField()
 
+    image_hash = models.CharField(max_length=32)
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
@@ -27,3 +30,7 @@ class Screenshot(BaseModelMixin):
 
     def __str__(self):
         return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        super().delete(using, keep_parents)
+        post_delete.send(Screenshot, instance=self)

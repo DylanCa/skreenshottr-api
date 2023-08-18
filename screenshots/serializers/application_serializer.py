@@ -1,8 +1,9 @@
 from screenshots.models.application import Application
-from screenshots.serializers.mixins import BaseModelSerializerMixin
+from screenshots.serializers.mixins import BaseModelSerializerMixin, UniqueObjectSerializerMixin
 
 
-class ApplicationSerializer(BaseModelSerializerMixin):
+class ApplicationSerializer(BaseModelSerializerMixin,
+                            UniqueObjectSerializerMixin):
     class Meta:
         model = Application
         fields = ["id", "name"]
