@@ -10,6 +10,7 @@ from rest_framework.test import APIClient
 from screenshots.models.screenshot import Screenshot
 from screenshots.tests.factories.screenshot_factory import ScreenshotFactory
 from screenshots.tests.factories.tag_factory import TagFactory
+from screenshots.tests.factories.user_data_factory import UserDataFactory
 from screenshots.tests.factories.user_factory import UserFactory
 from screenshots.tests.viewsets.viewset_tests_helper import ViewsetTestsHelper
 
@@ -19,7 +20,9 @@ class TestScreenshotViewset:
     def setup_method(self):
         self.client = APIClient()
         self.user = UserFactory()
+        UserDataFactory(owner=self.user)
         self.user2 = UserFactory(username="user2", email="email2@toto.fr")
+        UserDataFactory(owner=self.user2)
         self.tag1_u1 = TagFactory(name="Tag1, User 1", owner=self.user)
         self.screenshot1_u1 = ScreenshotFactory(owner=self.user)
         self.screenshot2_u1 = ScreenshotFactory(owner=self.user)

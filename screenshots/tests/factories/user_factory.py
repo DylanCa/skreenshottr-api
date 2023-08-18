@@ -1,6 +1,7 @@
 import factory
 
 from screenshots.models import User
+from screenshots.tests.factories.user_data_factory import UserDataFactory
 
 
 class UserFactory(factory.django.DjangoModelFactory):

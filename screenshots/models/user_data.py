@@ -44,7 +44,7 @@ def update_screenshot_total_data(sender, instance, **kwargs):
             data.screenshot_total_count = F('screenshot_total_count') - 1
             data.screenshot_total_size = F('screenshot_total_size') - instance.size
             data.save()
-        except IntegrityError as e:
+        except IntegrityError:
             # Ensuring to recalculate if an error happens
             screenshots = Screenshot.objects.filter(owner=instance.owner)
             data.screenshot_total_count = screenshots.count()
