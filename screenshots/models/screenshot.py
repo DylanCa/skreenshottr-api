@@ -21,6 +21,8 @@ class Screenshot(BaseModelMixin):
     width = models.IntegerField()
     height = models.IntegerField()
 
+    image_hash = models.CharField(max_length=32)
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     class Meta:
