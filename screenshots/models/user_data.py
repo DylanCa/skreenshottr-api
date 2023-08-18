@@ -24,7 +24,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Screenshot)
-def update_screenshot_total_data(sender, instance, created, **kwargs):
+def add_new_screenshot_total_data(sender, instance, created, **kwargs):
     if created:
         if hasattr(instance.owner, 'data'):
             data = instance.owner.data
@@ -36,7 +36,7 @@ def update_screenshot_total_data(sender, instance, created, **kwargs):
 
 
 @receiver(post_delete, sender=Screenshot)
-def update_screenshot_total_data(sender, instance, **kwargs):
+def remove_deleted_screenshot_total_data(sender, instance, **kwargs):
     if hasattr(instance.owner, 'data'):
         data = instance.owner.data
 
