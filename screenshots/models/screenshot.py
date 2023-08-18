@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_delete
 
 from . import User
 from .tag import Tag
@@ -27,3 +28,7 @@ class Screenshot(BaseModelMixin):
 
     def __str__(self):
         return self.name
+
+    def delete(self, using=None, keep_parents=False):
+        super().delete(using, keep_parents)
+        post_delete.send(Screenshot, instance=self)
