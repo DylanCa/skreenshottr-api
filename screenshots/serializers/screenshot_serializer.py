@@ -74,7 +74,7 @@ class ScreenshotSerializer(BaseModelSerializerMixin):
                 attrs["size"] = file.size
 
                 image_url, thumbnail_url = ImageHelper.upload_image_to_storage(
-                    image, filename, user.id
+                    image, filename, image_hash
                 )
 
                 attrs["image_url"] = image_url
